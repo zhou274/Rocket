@@ -15,6 +15,9 @@ public class PlayManager : MonoBehaviour
 
     public GameObject PlayerObj;
 
+    public GameObject PausePanel;
+    public GameObject pauseBtn;
+
     int currentScore = 0;
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
@@ -48,7 +51,7 @@ public class PlayManager : MonoBehaviour
     public void GameOver()
     {
         StartCoroutine(GameOverCoroutine());
-        ShowInterstitialAd("1lcaf5895d5l1293dc",
+        ShowInterstitialAd("8j200lk882h11ebgi8",
             () => {
                 Debug.LogError("--插屏广告完成--");
 
@@ -58,9 +61,46 @@ public class PlayManager : MonoBehaviour
             });
     }
 
+    public void Pause()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+
+    public void Continue()
+    {
+        ShowVideoAd("nagh7fnj2ak23357ae",
+           (bol) => {
+               if (bol)
+               {
+
+
+                   PausePanel.SetActive(false);
+                   Time.timeScale = 1;
+
+
+                   clickid = "";
+                   getClickid();
+                   apiSend("game_addiction", clickid);
+                   apiSend("lt_roi", clickid);
+
+
+               }
+               else
+               {
+                   StarkSDKSpace.AndroidUIManager.ShowToast("观看完整视频才能获取奖励哦！");
+               }
+           },
+           (it, str) => {
+               Debug.LogError("Error->" + str);
+               //AndroidUIManager.ShowToast("广告加载异常，请重新看广告！");
+           });
+    }
+
     public void GameContinue()
     {
-        ShowVideoAd("192if3b93qo6991ed0",
+        ShowVideoAd("nagh7fnj2ak23357ae",
             (bol) => {
                 if (bol)
                 {
@@ -90,16 +130,18 @@ public class PlayManager : MonoBehaviour
     IEnumerator GameOverCoroutine()
     {
         yield return new WaitForSecondsRealtime(1.0f);
+
         Time.timeScale = 0.005f;
+        pauseBtn.SetActive(false);
         GameoverPanel.SetActive(true);
         ChangeColorToWhite();
-
         yield break;
     }
     IEnumerator GameContinueCoroutine()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1;
+        pauseBtn.SetActive(true);
         GameoverPanel.SetActive(false);
         BackColor();
         yield break;

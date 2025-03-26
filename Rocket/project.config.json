@@ -1,0 +1,20 @@
+{
+  "appid": "tte58e93337a850d6107",
+  "projectname": "TestProject",
+  "unity": {
+    "build": {
+      "webgl": "D:\\Webgl\\webgl_package-20250326_131332.zip",
+      "native": {
+        "il2cpp": "",
+        "apk": "",
+        "fullApk": ""
+      },
+      "instantGame": ""
+    },
+    "publishType": "2",
+    "starkSdkVersion": "Without StarkSDK",
+    "unityToolsVersion": "4.0.4",
+    "unityEngineVersion": "2021.3.41f1c1",
+    "arch": "both"
+  }
+}
